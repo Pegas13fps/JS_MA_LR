@@ -1,6 +1,6 @@
 'use strict';
 
-var body = document.body;
+let body = document.body;
 
   body.innerHTML = "<!--" + body.tagName + "-->";
 
