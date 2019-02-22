@@ -1,28 +1,24 @@
 'use strict';
 
+// Вроде понял, спасибо огромное. Просто перескакывал позицию для сравнения...
+// чем больше был бы массив тем больше оставалось бы... 
 let arr = [1, 2, 3, 4, 5];
 
 const consecutiveNumb = function(x, t) {
-  let checkArr = [...x];
+  let resultArr = [...x];
 
-  for (let i = 0; i < x.length; i++) {
-
-    if (x[i] + x[i + 1] === t) {
-      delete checkArr[i + 1];
+  for (let i = 0; i < resultArr.length; i++) {
+    if (resultArr[i] + resultArr[i + 1] === t) {
+      resultArr.splice(i + 1, 1);
+      i--;
       }
     }
 
-    let filtered = checkArr.filter(el => {
-      return el !== null;
-    });
-
-  return filtered;
+  return resultArr;
 }
 
 console.log(consecutiveNumb(arr, 3)); // 1 3 4 5
-
-console.log(consecutiveNumb([2, 2, 2, 2, 2], 4)); // 2
-
+console.log(consecutiveNumb([2, 2, 2, 2, 2, 2, 2], 4)); // 2 как то так, при старом 2 2 2 2 было бы...
 console.log(consecutiveNumb([2, 1, 1, 1, 2], 2)); // 2 1 2
 
 // Given an array of integers (x), and a target (t),
