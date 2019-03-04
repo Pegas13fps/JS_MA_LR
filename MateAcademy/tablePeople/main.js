@@ -1,6 +1,6 @@
 'use strict';
 
-const people = [
+const ANCESTRY_FILE = [
   {"name": "Carolus Haverbeke", "sex": "m", "born": 1832, "died": 1905, "father": "Carel Haverbeke", "mother": "Maria van Brussel"},
   {"name": "Emma de Milliano", "sex": "f", "born": 1876, "died": 1956, "father": "Petrus de Milliano", "mother": "Sophia van Damme"},
   {"name": "Maria de Rycke", "sex": "f", "born": 1683, "died": 1724, "father": "Frederik de Rycke", "mother": "Laurentia van Vlaenderen"},
@@ -43,43 +43,48 @@ const people = [
 ];
 
 const columnsNames = ['id', 'name', 'sex', 'born', 'died', 'age', 'century', 'mother', 'father', 'children'];
+
+let peopleBox = document.querySelector('.people'); // create a function showPeople(element, people)
+  // element is a link to DOM element.
 function showPeople(element, people) {
-  let peopleBox = document.querySelector('.people');
-  console.log(peopleBox);
-  document.peopleBox = people;
-  console.log(document.peopleBox);
+  
+  console.log(element);
+  console.log(people);
 
   let tabel = document.createElement('table');
   let thead = document.createElement('thead');
-  let th = document.createElement('th');
+
   let tbody = document.createElement('tbody');
+
   let tr = document.createElement('tr');
   let td = document.createElement('td');
 
-  peopleBox.appendChild(tabel).classList.add('people__table');
+  element.appendChild(tabel).classList.add('people__table');
   tabel.appendChild(thead);
-  // thead.appendChild(th);
   tabel.appendChild(tbody);
   tbody.appendChild(tr).classList.add('person');
   tr.appendChild(td);
 
-  let thDOM = document.querySelector('th');
-
-  // thDOM.textContent = 'id';
-
-  for (let i = 0; i < columnsNames.length; i++) {
-
+  for (let i = 0; i < columnsNames.length; i++) { // print columns names
   let th = document.createElement('th');
-
   thead.appendChild(th);
   th.textContent = columnsNames[i];
-
-  // let thDOM = document.querySelector('th');
-  // thDOM.textContent = columnsNames[i];
-  console.log(columnsNames[i]);
-
   }
-  
+  console.log(people[0]);
+  console.log(Object.values(people[0])); // берем значения people 1;
+
+  for (let i = 0; i < people.length; i++) {
+    // Object.values(people[i]);
+    tbody.appendChild(tr).classList.add('person');
+    tr.appendChild(td);
+  }
+
+  console.log();
+
 }
 
-showPeople(null, people);
+showPeople(peopleBox, ANCESTRY_FILE);
+
+const getPeopleHTML = function() {
+  return peopleTable.innerHTML;
+}
