@@ -113,24 +113,23 @@ console.log(personsArr);
 personsArr.forEach(function(item) {
   if (item.children[2].innerHTML === 'f') {
     item.classList.add('person--female');
+    } else {
+      item.classList.add('person--male');
     }
-    item.classList.add('person--male');
   });
 }
 
 // add class person--mother/person--father based on children add cornflowerblue background to all fathers
 function addFatherMotherClass(personsArr) {
   personsArr.forEach(function(itemFather) {
-    if (itemFather.children[2].innerHTML === 'm') {
-      console.log(itemFather.children[1], itemFather.children[8]);
       personsArr.forEach(function(itemChildren) {
-        if (itemFather.children[1] === itemChildren.children[8]) {
-          console.log(itemFather.children[1], itemChildren.children[7]);
+        if (itemFather.children[1].innerHTML === itemChildren.children[8].innerHTML) {
+          itemFather.classList.add('person--father');
+        }
+        if (itemFather.children[1].innerHTML === itemChildren.children[7].innerHTML) {
+          itemFather.classList.add('person--mother');
         }
       });
-      // item.classList.add('person--female');
-      }
-      // item.classList.add('person--male');
     });
 };
 
