@@ -44,13 +44,20 @@ const ANCESTRY_FILE = [
 
 const columnsNames = ['id', 'name', 'sex', 'born', 'died', 'age', 'century', 'mother', 'father', 'children'];
 
-// element is a link to DOM element.
+// 1 element is a link to DOM element.
 let peopleTable = document.querySelector('.people');
+
+function getChildrens(personName){
+  const persons = [...document.querySelectorAll('.person')];
+  let child;
+  console.log(persons);
+  return child;
+}
 
 // create a function showPeople(element, people)
 function showPeople(element, people) {
 
-// generate a table from given items (without innerHTML and insretAdjucentHTML)
+// 1 generate a table from given items (without innerHTML and insretAdjucentHTML)
   let tabel = document.createElement('table');
   let thead = document.createElement('thead');
   let tbody = document.createElement('tbody');
@@ -63,7 +70,7 @@ function showPeople(element, people) {
     let th = document.createElement('th');
     thead.appendChild(th).textContent = item;
   });
-// columns to display:
+// 1 columns to display:
   for (let i = 0; i < people.length; i++) {
     let tr = document.createElement('tr');
     tbody.appendChild(tr).classList.add('person');
@@ -98,43 +105,81 @@ function showPeople(element, people) {
         td.innerHTML = people[i].father;
       }
       if (columnsNames[j] === 'children') {
-        td.innerHTML = people[i].father ; // chldren not finish
+        td.innerHTML = getChildrens(people[i].name); // chldren not finish
+        console.log(people[i].name);
       }
       tr.appendChild(td);
     }
   }
-  // console.log(people[0]);
-  // console.log(Object.values(people[0])); // берем значения people 1;
 }
 
-// add class person--male/person--female based on sex add lightpink background to all women
+// 2 add class person--male/person--female based on sex add lightpink background to all women
 function addFlameClass(personsArr) {
-console.log(personsArr);
-personsArr.forEach(function(item) {
-  if (item.children[2].innerHTML === 'f') {
-    item.classList.add('person--female');
+  personsArr.forEach(function(item) {
+    if (item.children[2].innerHTML === 'f') {
+      item.classList.add('person--female');
     } else {
       item.classList.add('person--male');
     }
   });
 }
 
-// add class person--mother/person--father based on children add cornflowerblue background to all fathers
+// 3 add class person--mother/person--father based on children add cornflowerblue background to all fathers
 function addFatherMotherClass(personsArr) {
   personsArr.forEach(function(itemFather) {
-      personsArr.forEach(function(itemChildren) {
-        if (itemFather.children[1].innerHTML === itemChildren.children[8].innerHTML) {
-          itemFather.classList.add('person--father');
-        }
-        if (itemFather.children[1].innerHTML === itemChildren.children[7].innerHTML) {
-          itemFather.classList.add('person--mother');
-        }
-      });
+    personsArr.forEach(function(itemChildren) {
+      if (itemFather.children[1].innerHTML === itemChildren.children[8].innerHTML) {
+        itemFather.classList.add('person--father');
+      }
+      if (itemFather.children[1].innerHTML === itemChildren.children[7].innerHTML) {
+        itemFather.classList.add('person--mother');
+      }
     });
+  });
 };
 
+// 4 add class person--lived-in-17 based on century
+function addCenturyClass(personsArr) {
+  personsArr.forEach(function(century) {
+    if (century.children[6].innerHTML === '17') {
+      century.classList.add('person--lived-in-17');
+    }
+  });
+}
+
+// 5 add green border to all the people who lived for more than 65 years
+function addClassMore65Year(personsArr) {
+  personsArr.forEach(function(age) {
+    if (age.children[5].innerHTML >= '65') {
+      age.style.border = '2px solid green';
+    }
+  });
+}
+
+// 6 mark some names in the table (including children column)
+function bornDiePeopleDecor(personsArr) {
+  personsArr.forEach(function(bornDie) {
+    if (bornDie.children[3].innerHTML <= '1650') {
+      bornDie.children[1].innerHTML = `<span style="text-decoration: line-through">${bornDie.children[1].innerHTML}</span>`;
+      bornDie.children[9].innerHTML = `<span style="text-decoration: line-through">${bornDie.children[9].innerHTML}</span>`;
+    }
+    if (bornDie.children[4].innerHTML >= '1800') {
+      bornDie.children[1].innerHTML = `<span style="font-weight: bold">${bornDie.children[1].innerHTML}</span>`;
+      bornDie.children[9].innerHTML = `<span style="font-weight: bold">${bornDie.children[9].innerHTML}</span>`;
+    }
+  });
+}
 
 showPeople(peopleTable, ANCESTRY_FILE);
 const personsArr = [...document.querySelectorAll('.person')];
 addFlameClass(personsArr);
 addFatherMotherClass(personsArr);
+addCenturyClass(personsArr);
+addClassMore65Year(personsArr);
+bornDiePeopleDecor(personsArr);
+
+
+// console.log(getChildrens(personsArr));
+
+// console.log(Object.values(people[0])); // берем значения people 0;
+
