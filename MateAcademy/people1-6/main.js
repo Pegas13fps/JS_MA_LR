@@ -47,11 +47,15 @@ const columnsNames = ['id', 'name', 'sex', 'born', 'died', 'age', 'century', 'mo
 // 1 element is a link to DOM element.
 let peopleTable = document.querySelector('.people');
 
-function getChildrens(personName){
-  const persons = [...document.querySelectorAll('.person')];
-  let child;
-  console.log(persons);
-  return child;
+// find childrens
+function getChildrens(personName, people){
+  let childrens = [];
+  people.forEach(function(parent) {
+    if (parent.father === personName || parent.mother === personName) {
+      childrens.push(parent.name);
+    }
+  });
+  return childrens;
 }
 
 // create a function showPeople(element, people)
@@ -105,8 +109,7 @@ function showPeople(element, people) {
         td.innerHTML = people[i].father;
       }
       if (columnsNames[j] === 'children') {
-        td.innerHTML = getChildrens(people[i].name); // chldren not finish
-        console.log(people[i].name);
+        td.innerHTML = getChildrens(people[i].name, people);
       }
       tr.appendChild(td);
     }
@@ -170,6 +173,11 @@ function bornDiePeopleDecor(personsArr) {
   });
 }
 
+/// 7 implement function getPeopleHTML returning innerHTML of all above
+function getPeopleHTML(peopleTable) {
+  return peopleTable.innerHTML;
+}
+
 showPeople(peopleTable, ANCESTRY_FILE);
 const personsArr = [...document.querySelectorAll('.person')];
 addFlameClass(personsArr);
@@ -177,9 +185,9 @@ addFatherMotherClass(personsArr);
 addCenturyClass(personsArr);
 addClassMore65Year(personsArr);
 bornDiePeopleDecor(personsArr);
+getPeopleHTML(peopleTable);
 
+// console.dir(getPeopleHTML(peopleTable));
 
-// console.log(getChildrens(personsArr));
-
-// console.log(Object.values(people[0])); // берем значения people 0;
-
+// Пытался найти какое-то более красивое обращение к элементу чем century.children[6].innerHTML ... так и не нашел.
+// Если можешь подскажм пожалуйста как более красивее можна брать его... Поскольку добавь 1 столбик в таблицу и все логике капец.
