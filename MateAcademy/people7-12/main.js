@@ -47,6 +47,15 @@ const columnsNames = ['id', 'name', 'sex', 'born', 'died', 'age', 'century', 'mo
 // 1 element is a link to DOM element.
 let peopleTable = document.querySelector('.people');
 
+// 1 generate a table from given items (without innerHTML and insretAdjucentHTML)
+let table = document.createElement('table');
+let thead = document.createElement('thead');
+let tbody = document.createElement('tbody');
+
+peopleTable.appendChild(table).classList.add('people__table');
+table.appendChild(thead);
+table.appendChild(tbody);
+
 // find childrens
 function getChildrens(personName, people){
   let childrens = [];
@@ -61,26 +70,23 @@ function getChildrens(personName, people){
 // create a function showPeople(element, people)
 function showPeople(element, people) {
 
-// 1 generate a table from given items (without innerHTML and insretAdjucentHTML)
-  let tabel = document.createElement('table');
-  let thead = document.createElement('thead');
-  let tbody = document.createElement('tbody');
-
-  element.appendChild(tabel).classList.add('people__table');
-  tabel.appendChild(thead);
-  tabel.appendChild(tbody);
-
+// 11 use attribute data-selectable for the cell available for selection (for example name, age, century)
+  let tr = document.createElement('tr');
   columnsNames.forEach(function(item) {
     let th = document.createElement('th');
-    thead.appendChild(th).textContent = item;
+    th.appendChild(document.createTextNode(item));
+    th.setAttribute('data-type', item);
+    tr.appendChild(th);
   });
+  thead.appendChild(tr);
+
 // 1 columns to display:
   for (let i = 0; i < people.length; i++) {
     let tr = document.createElement('tr');
     tbody.appendChild(tr).classList.add('person');
 
     for (let j = 0; j < columnsNames.length; j++) {
-      let td = document.createElement('td');
+      const td = document.createElement('td');
       if (columnsNames[j] === 'id') {
         td.textContent = i + 1;
       }
@@ -190,36 +196,68 @@ getPeopleHTML(peopleTable);
 // console.dir(getPeopleHTML(peopleTable));
 
 // 8 add sorting by name, age, born, died
-const table = document.querySelector('table');
+// const table = document.querySelector('table');
+let colIndex = -1;
+const sortTable = function(indexTh, type, isSorted) {
+  const tbody = table.querySelector('tbody');
 
-const sortTable = function(indexTh) {
+  const compare = function (rowA, rowB) {
+    let rowDataA = rowA.cells[indexTh].textContent;
+    let rowDataB = rowB.cells[indexTh].textContent;  
+
+    switch (type) {
+      case 'born':
+      case 'died':
+      case 'age':
+        return rowDataA - rowDataB;
+        break;
+      case 'name':
+        if (rowDataA < rowDataB) return -1;
+        else if (rowDataA > rowDataB) return 1;
+        return 0;
+        break;
+    }
+  }
+
+  let rows = [].slice.call(tbody.rows);
+  rows.sort(compare);
+  if (isSorted) rows.reverse();
+  table.removeChild(tbody);
   
-  return console.log('sorted');
+  rows.forEach(function(item, index) {
+    tbody.appendChild(rows[index]);
+  });
+  table.appendChild(tbody);
 }
 
 table.addEventListener('click', function(event){
   const pickElement = event.target;
 
   if (pickElement.nodeName !== 'TH') return;
-console.dir(pickElement);
-  let indexTh = pickElement.cellIndex;
-  // document.getElementById('lblName').parentNode.cellIndex
 
-
-  sortTable(indexTh);
+  const indexTh = pickElement.cellIndex;
+  const dataType = pickElement.getAttribute('data-type');
+  sortTable(indexTh, dataType, colIndex === indexTh);
+  colIndex = (colIndex === indexTh) ? -1 : indexTh;
 }); 
+
+// 9 add input field to filter the table by name, mother and father
+function addInputs() {
+
+}
 
 // 10 Mark a cell as selected when user click on it (border: 2px solid blue)
 // it can be only one selected cell at a time
 let saveTD;
 table.addEventListener('click', function(event) {
-  let curElement = event.target; 
+  let curElement = event.target;
 
   if (curElement.nodeName !== 'TD') return;
-
   if (saveTD) {
     saveTD.classList.remove('blue--border');
   }
   saveTD = curElement;
   saveTD.classList.add('blue--border');
 });
+
+// 11 in function showPeople first forEach;
