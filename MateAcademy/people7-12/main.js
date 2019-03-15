@@ -81,13 +81,11 @@ function showPeople(element, people) {
 
     for (let j = 0; j < columnsNames.length; j++) {
       let td = document.createElement('td');
-      let span = document.createElement('span');
       if (columnsNames[j] === 'id') {
         td.textContent = i + 1;
       }
       if (columnsNames[j] === 'name') {
-        span.textContent = people[i].name;
-        td.textContent = span.textContent;
+        td.textContent = people[i].name;
       }
       if (columnsNames[j] === 'sex') {
         td.textContent = people[i].sex;
@@ -111,8 +109,7 @@ function showPeople(element, people) {
         td.textContent = people[i].father;
       }
       if (columnsNames[j] === 'children') {
-        span.textContent = getChildrens(people[i].name, people);
-        td.textContent = span.textContent;
+        td.textContent = getChildrens(people[i].name, people);
       }
       tr.appendChild(td);
     }
@@ -157,7 +154,7 @@ function addCenturyClass(personsArr) {
 function addClassMore65Year(personsArr) {
   personsArr.forEach(function(age) {
     if (age.children[5].textContent >= '65') {
-      age.style.border = '2px solid green';
+      age.classList.add('green--border');
     }
   });
 }
@@ -166,12 +163,12 @@ function addClassMore65Year(personsArr) {
 function bornDiePeopleDecor(personsArr) {
   personsArr.forEach(function(bornDie) {
     if (bornDie.children[3].textContent <= '1650') {
-      bornDie.children[1].classList.add('line-through');
-      bornDie.children[9].classList.add('line-through');
+      bornDie.children[1].classList.add('line--through');
+      bornDie.children[9].classList.add('line--through');
     }
     if (bornDie.children[4].textContent >= '1800') {
-      bornDie.children[1].classList.add('text_bold');
-      bornDie.children[9].classList.add('text_bold');
+      bornDie.children[1].classList.add('text--bold');
+      bornDie.children[9].classList.add('text--bold');
     }
   });
 }
@@ -195,19 +192,34 @@ getPeopleHTML(peopleTable);
 // 8 add sorting by name, age, born, died
 const table = document.querySelector('table');
 
-const sortTable = function() {
-
+const sortTable = function(indexTh) {
+  
   return console.log('sorted');
 }
 
 table.addEventListener('click', function(event){
   const pickElement = event.target;
 
-  if (pickElement.nodeName !== 'TH') {
-    console.log('not TH');
-    return;
-  }
-  sortTable();
+  if (pickElement.nodeName !== 'TH') return;
+console.dir(pickElement);
+  let indexTh = pickElement.cellIndex;
+  // document.getElementById('lblName').parentNode.cellIndex
+
+
+  sortTable(indexTh);
 }); 
-  
-console.log(table);
+
+// 10 Mark a cell as selected when user click on it (border: 2px solid blue)
+// it can be only one selected cell at a time
+let saveTD;
+table.addEventListener('click', function(event) {
+  let curElement = event.target; 
+
+  if (curElement.nodeName !== 'TD') return;
+
+  if (saveTD) {
+    saveTD.classList.remove('blue--border');
+  }
+  saveTD = curElement;
+  saveTD.classList.add('blue--border');
+});

@@ -16,15 +16,21 @@ th {
   font-size: 0.9em;
   text-transform: uppercase;
 }
+.green--border {
+  border: 2px solid green;
+}
 .person--female {
   background: lightpink;
  }
 .person--father {
   background: cornflowerblue;
 }
-.line-through {
+.line--through {
   text-decoration: line-through;
 }
-.text_bold {
+.text--bold {
   font-weight: bold;
+}
+.blue--border {
+  border: 2px solid blue;
 }
