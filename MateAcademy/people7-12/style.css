@@ -1,0 +1,30 @@
+table {
+  font-family: 'Open Sans', sans-serif;
+  text-align: center;
+  border-collapse: collapse;
+
+  }
+tr, td {
+  border: 1px solid #000000;
+}
+th {
+  border-collapse: collapse;
+  padding: 10px 20px;
+  background: #56433D;
+  color: #F9C941;
+  border: 2px solid; 
+  font-size: 0.9em;
+  text-transform: uppercase;
+}
+.person--female {
+  background: lightpink;
+ }
+.person--father {
+  background: cornflowerblue;
+}
+.line-through {
+  text-decoration: line-through;
+}
+.text_bold {
+  font-weight: bold;
+}
