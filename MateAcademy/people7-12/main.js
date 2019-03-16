@@ -193,10 +193,7 @@ addClassMore65Year(personsArr);
 bornDiePeopleDecor(personsArr);
 getPeopleHTML(peopleTable);
 
-// console.dir(getPeopleHTML(peopleTable));
-
 // 8 add sorting by name, age, born, died
-// const table = document.querySelector('table');
 let colIndex = -1;
 const sortTable = function(indexTh, type, isSorted) {
   const tbody = table.querySelector('tbody');
@@ -241,10 +238,25 @@ table.addEventListener('click', function(event){
   colIndex = (colIndex === indexTh) ? -1 : indexTh;
 }); 
 
-// 9 add input field to filter the table by name, mother and father
-function addInputs() {
-
-}
+// 9-12 add input field to filter the table by name, mother and father
+let form = document.querySelector('.form');
+form.addEventListener('keyup', function(element) {
+  const name = form.elements[0].value.toUpperCase();
+  const mother = form.elements[1].value.toUpperCase();
+  const father = form.elements[2].value.toUpperCase();
+  
+  for (let i = 1; i < table.rows.length; i++) {
+      if (
+          table.rows[i].cells[1].textContent.toUpperCase().indexOf(name) === -1 ||
+          table.rows[i].cells[7].textContent.toUpperCase().indexOf(mother) === -1 ||
+          table.rows[i].cells[8].textContent.toUpperCase().indexOf(father) === -1
+      ) {
+          table.rows[i].classList.add('none');
+      } else {
+        table.rows[i].classList.remove('none');
+      }
+  }
+});
 
 // 10 Mark a cell as selected when user click on it (border: 2px solid blue)
 // it can be only one selected cell at a time
@@ -260,4 +272,4 @@ table.addEventListener('click', function(event) {
   saveTD.classList.add('blue--border');
 });
 
-// 11 in function showPeople first forEach;
+// 11 in function showPeople, first forEach;
