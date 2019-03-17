@@ -92,6 +92,7 @@ function showPeople(element, people) {
       }
       if (columnsNames[j] === 'name') {
         td.textContent = people[i].name;
+        td.setAttribute('data-selectable', 'name');
       }
       if (columnsNames[j] === 'sex') {
         td.textContent = people[i].sex;
@@ -104,9 +105,11 @@ function showPeople(element, people) {
       }
       if (columnsNames[j] === 'age') {
         td.textContent = people[i].died - people[i].born;
+        td.setAttribute('data-selectable', 'name');
       }
       if (columnsNames[j] === 'century') {
         td.textContent = (Math.ceil(people[i].died / 100));
+        td.setAttribute('data-selectable', 'century');
       }
       if (columnsNames[j] === 'mother') {
         td.textContent = people[i].mother;
@@ -238,7 +241,7 @@ table.addEventListener('click', function(event){
   colIndex = (colIndex === indexTh) ? -1 : indexTh;
 }); 
 
-// 9-12 add input field to filter the table by name, mother and father
+// 9, 12 add input field to filter the table by name, mother and father
 let form = document.querySelector('.form');
 form.addEventListener('keyup', function(element) {
   const name = form.elements[0].value.toUpperCase();
@@ -272,4 +275,4 @@ table.addEventListener('click', function(event) {
   saveTD.classList.add('blue--border');
 });
 
-// 11 in function showPeople, first forEach;
+// 11 in function showPeople, 1 task;
