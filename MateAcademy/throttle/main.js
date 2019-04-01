@@ -8,8 +8,39 @@
  * После остановки дождаться очередную секунду и напечатать координаты в последний раз
  * Функция onMove должна получать тот же `this` и аргументы, что и обёртка
 **/
+
 function throttle(f, delay) {
-  // ...
+  let flag = false;
+  let hasCall = false;
+  let bufCont, bufArgs;
+  let lastResult;
+
+  const rdyFunc = (context, args) => {
+    lastResult = f.apply(context, args);
+    flag = true;
+
+    setTimeout( () => {
+      flag = false;
+
+      if (hasCall) {
+        rdyFunc(bufCont, bufArgs);
+        bufCont = undefined;
+        bufArgs = undefined;
+        hasCall = false;
+      }
+    }, delay);
+  };
+  
+  return function(...args) {
+    if (!flag) {
+      rdyFunc(this, args);
+    } else {
+      hasCall = true;
+      bufCont = this;
+      bufArgs = args;
+    }
+    return lastResult;
+  }
 }
 
 function onMove(event) {
