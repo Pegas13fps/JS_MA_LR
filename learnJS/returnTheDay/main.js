@@ -1,8 +1,9 @@
 'use strict';
 
-function getChar(c){
-    return String.fromCharCode(c)
-  }
-
-console.log( getChar(55) ); // 7 - in ASCII
-
+function whatday(num) { 
+  const weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  if (num > 0 && num < 8) {
+    return weekDays[num - 1];
+    }
+  return "Wrong, please enter a number between 1 and 7";
+}
